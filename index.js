@@ -1,5 +1,8 @@
 var jwt = require('jsonwebtoken');
 
+var scErrors = require('sc-errors');
+var InvalidArgumentsError = scErrors.InvalidArgumentsError;
+
 
 var AuthEngine = function () {};
 
@@ -7,8 +10,7 @@ AuthEngine.prototype.verifyToken = function (signedToken, key, options, callback
   if (typeof signedToken == 'string' || signedToken == null) {
     jwt.verify(signedToken || '', key, options, callback);
   } else {
-    var err = new Error('Invalid token format - Token must be a string');
-    err.name = "TokenFormatError";
+    var err = new InvalidArgumentsError('Invalid token format - Token must be a string');
     callback(err);
   }
 };
