@@ -16,7 +16,9 @@ AuthEngine.prototype.verifyToken = function (signedToken, key, options, callback
 };
 
 AuthEngine.prototype.signToken = function (token, key, options, callback) {
-  jwt.sign(token, key, options, callback);
+  delete token.exp;
+  var signedToken = jwt.sign(token, key, options);
+  callback(null, signedToken)
 };
 
 module.exports.AuthEngine = AuthEngine;
