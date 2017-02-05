@@ -6,6 +6,7 @@ var InvalidArgumentsError = scErrors.InvalidArgumentsError;
 var AuthEngine = function () {};
 
 AuthEngine.prototype.verifyToken = function (signedToken, key, options, callback) {
+  options = options || {};
   var jwtOptions = cloneObject(options);
   delete jwtOptions.async;
   if (typeof signedToken == 'string' || signedToken == null) {
@@ -33,6 +34,7 @@ AuthEngine.prototype.verifyToken = function (signedToken, key, options, callback
 };
 
 AuthEngine.prototype.signToken = function (token, key, options, callback) {
+  options = options || {};
   var jwtOptions = cloneObject(options);
   delete jwtOptions.async;
 
