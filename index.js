@@ -1,4 +1,4 @@
-var jwt = require('jsonwebtoken');
+var jwt = require('sc-jsonwebtoken');
 
 var scErrors = require('sc-errors');
 var InvalidArgumentsError = scErrors.InvalidArgumentsError;
