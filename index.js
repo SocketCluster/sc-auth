@@ -41,7 +41,13 @@ AuthEngine.prototype.signToken = function (token, key, options, callback) {
   if (options.async) {
     jwt.sign(token, key, jwtOptions, callback);
   } else {
-    var signedToken = jwt.sign(token, key, jwtOptions);
+    var signedToken;
+    try {
+      signedToken = jwt.sign(token, key, jwtOptions);
+    } catch (err) {
+      callback(err);
+      return;
+    }
     callback(null, signedToken);
   }
 };
