@@ -1,4 +1,4 @@
-var jwt = require('sc-jsonwebtoken');
+var jwt = require('jsonwebtoken');
 
 var scErrors = require('sc-errors');
 var InvalidArgumentsError = scErrors.InvalidArgumentsError;
@@ -37,7 +37,6 @@ AuthEngine.prototype.signToken = function (token, key, options, callback) {
   options = options || {};
   var jwtOptions = cloneObject(options);
   delete jwtOptions.async;
-
   if (options.async) {
     jwt.sign(token, key, jwtOptions, callback);
   } else {
