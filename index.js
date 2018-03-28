@@ -10,7 +10,7 @@ AuthEngine.prototype.verifyToken = function (signedToken, keyOrKeyResolver, opti
   var jwtOptions = cloneObject(options);
   delete jwtOptions.async;
   if (typeof signedToken == 'string' || signedToken == null) {
-    (typeof keyOrKeyResolver === 'function' ? keyOrKeyResolver : Promise.resolve(keyOrKeyResolver)).then(function(key) {
+    (typeof keyOrKeyResolver === 'function' ? keyOrKeyResolver(signedToken) : Promise.resolve(keyOrKeyResolver)).then(function(key) {
       if (options.async) {
         jwt.verify(signedToken || '', key, jwtOptions, callback);
       } else {
@@ -38,7 +38,7 @@ AuthEngine.prototype.signToken = function (token, keyOrKeyResolver, options, cal
   options = options || {};
   var jwtOptions = cloneObject(options);
   delete jwtOptions.async;
-  (typeof keyOrKeyResolver === 'function' ? keyOrKeyResolver : Promise.resolve(keyOrKeyResolver)).then(function(key) {
+  (typeof keyOrKeyResolver === 'function' ? keyOrKeyResolver(token) : Promise.resolve(keyOrKeyResolver)).then(function(key) {
     if (options.async) {
       jwt.sign(token, key, jwtOptions, callback);
     } else {
