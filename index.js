@@ -9,8 +9,8 @@ AuthEngine.prototype.verifyToken = function (signedToken, key, options, callback
   options = options || {};
   var jwtOptions = cloneObject(options);
   delete jwtOptions.async;
+  delete jwtOptions.socket;
   if (typeof signedToken == 'string' || signedToken == null) {
-
     if (options.async) {
       jwt.verify(signedToken || '', key, jwtOptions, callback);
     } else {
