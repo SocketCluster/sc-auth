@@ -14,7 +14,7 @@
   "author": "Jonathan Gros-Dubois <grosjona@yahoo.com.au>",
   "license": "MIT",
   "dependencies": {
-    "jsonwebtoken": "^8.2.0",
-    "sc-errors": "^1.4.0"
+    "jsonwebtoken": "^8.3.0",
+    "sc-errors": "^1.4.1"
   }
 }
