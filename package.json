@@ -1,6 +1,6 @@
 {
   "name": "sc-auth",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Auth module for SocketCluster",
   "main": "index.js",
   "scripts": {
