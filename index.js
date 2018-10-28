@@ -5,50 +5,48 @@ var InvalidArgumentsError = scErrors.InvalidArgumentsError;
 
 var AuthEngine = function () {};
 
-AuthEngine.prototype.verifyToken = function (signedToken, key, options, callback) {
+AuthEngine.prototype.verifyToken = function (signedToken, key, options) {
   options = options || {};
   var jwtOptions = cloneObject(options);
   delete jwtOptions.async;
   delete jwtOptions.socket;
-  if (typeof signedToken === 'string' || signedToken == null) {
-    if (options.async) {
-      jwt.verify(signedToken || '', key, jwtOptions, callback);
-    } else {
-      var err = null;
-      var token;
-      try {
-        token = jwt.verify(signedToken || '', key, jwtOptions);
-      } catch (error) {
-        err = error;
-      }
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, token);
-      }
+
+  if (options.async) {
+    if (typeof signedToken === 'string' || signedToken == null) {
+      return new Promise((resolve, reject) => {
+        jwt.verify(signedToken || '', key, jwtOptions, (err, token) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(token);
+        });
+      });
     }
-  } else {
-    var err = new InvalidArgumentsError('Invalid token format - Token must be a string');
-    callback(err);
+    return Promise.reject(new InvalidArgumentsError('Invalid token format - Token must be a string'));
   }
+  if (typeof signedToken === 'string' || signedToken == null) {
+    return jwt.verify(signedToken || '', key, jwtOptions);
+  }
+  throw new InvalidArgumentsError('Invalid token format - Token must be a string');
 };
 
-AuthEngine.prototype.signToken = function (token, key, options, callback) {
+AuthEngine.prototype.signToken = function (token, key, options) {
   options = options || {};
   var jwtOptions = cloneObject(options);
   delete jwtOptions.async;
   if (options.async) {
-    jwt.sign(token, key, jwtOptions, callback);
-  } else {
-    var signedToken;
-    try {
-      signedToken = jwt.sign(token, key, jwtOptions);
-    } catch (err) {
-      callback(err);
-      return;
-    }
-    callback(null, signedToken);
+    return new Promise((resolve, reject) => {
+      jwt.sign(token, key, jwtOptions, (err, signedToken) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(signedToken);
+      });
+    });
   }
+  return jwt.sign(token, key, jwtOptions);
 };
 
 function cloneObject(object) {
