@@ -1,6 +1,6 @@
 {
   "name": "sc-auth",
-  "version": "5.0.2",
+  "version": "6.0.0",
   "description": "Auth module for SocketCluster",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,6 @@
   "license": "MIT",
   "dependencies": {
     "jsonwebtoken": "^8.3.0",
-    "sc-errors": "^1.4.1"
+    "sc-errors": "^2.0.0"
   }
 }
